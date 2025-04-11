@@ -1,0 +1,109 @@
+name: Sync DeepFilterNet Android Native Libs
+
+on:
+    workflow_dispatch:
+    push:
+      branches:
+        - main
+    schedule:
+      - cron: '0 0 */7 * *'
+
+jobs:
+  sync_libs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Get latest DeepFilterNet workflow run ID
+        uses: actions/github-script@v7
+        id: get_run_id
+        with:
+          script: |
+            const owner = 'KaleyraVideo';
+            const repo = 'DeepFilterNet';
+            const workflowId = '154481798';
+
+            const { data } = await github.rest.actions.listWorkflowRuns({
+              owner,
+              repo,
+              workflow_id: workflowId,
+              status: 'success',
+              per_page: 1,
+              sort: 'created',
+              direction: 'desc',
+            });
+
+            if (data.workflow_runs.length > 0) {
+              return data.workflow_runs[0].id;
+            } else {
+              core.setFailed('No successful workflow run found in the other repository.');
+              return null;
+            }
+
+      - name: Download native Android libraries
+        uses: actions/download-artifact@v4
+        with:
+          repository: KaleyraVideo/DeepFilterNet
+          run-id: ${{ steps.get_run_id.outputs.result }}
+          name: native-android-libraries
+          path: downloaded-artifacts/native-android-libraries
+          github-token: ${{ github.token }}
+
+      - name: Download DeepFilterNet mobile model
+        uses: actions/download-artifact@v4
+        with:
+          repository: KaleyraVideo/DeepFilterNet
+          run-id: ${{ steps.get_run_id.outputs.result }}
+          name: deep-filter-mobile-model
+          path: downloaded-artifacts/
+          github-token: ${{ github.token }}
+
+      - name: Create and clear res/raw directory
+        run: rm -rf noise-filter/src/main/res/raw && mkdir -p noise-filter/src/main/res/raw
+
+      - name: Rename and move DeepFilterNet mobile model
+        run: mv downloaded-artifacts/deep-filter-mobile-model noise-filter/src/main/res/raw/deep_filter_mobile_model
+
+      - name: Create and clear jniLibs directory
+        run: rm -rf noise-filter/src/main/jniLibs && mkdir -p noise-filter/src/main/jniLibs
+
+      - name: Move native libraries to jniLibs
+        run: mv downloaded-artifacts/native-android-libraries/* noise-filter/src/main/jniLibs/
+
+      - name: Clean up downloaded artifacts
+        run: rm -rf downloaded-artifacts
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          git add noise-filter/src/main/jniLibs/arm64-v8a/libdf.so
+          git add noise-filter/src/main/jniLibs/armeabi-v7a/libdf.so
+          git add noise-filter/src/main/jniLibs/x86/libdf.so
+          git add noise-filter/src/main/jniLibs/x86_64/libdf.so
+          git add noise-filter/src/main/res/raw/deep_filter_mobile_model
+          if [[ -n $(git diff --staged) ]]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          else
+            echo "changed=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Configure Git user
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "GitHub Actions Bot"
+
+      - name: Stage jniLibs directory and model
+        run: git add noise-filter/src/main/jniLibs noise-filter/src/main/res/raw
+
+      - name: Commit native library updates and model
+        if: ${{ steps.check_changes.outputs.changed == 'true' }}
+        run: >
+          git commit -m "chore: Update native libraries and model from DeepFilterNet workflow https://github.com/KaleyraVideo/DeepFilterNet/actions/runs/${{ steps.get_run_id.outputs.result }}"
+
+      - name: Push native library updates
+        if: ${{ steps.check_changes.outputs.changed == 'true' }}
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ github.token }}
+          branch: ${{ github.ref_name }}
