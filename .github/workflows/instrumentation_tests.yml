@@ -1,4 +1,4 @@
-name: Run Instrumentation Tests
+name: Tests
 
 on:
     workflow_dispatch:

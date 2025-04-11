@@ -108,11 +108,11 @@ jobs:
           github_token: ${{ github.token }}
           branch: ${{ github.ref_name }}
 
-  trigger_instrumentation_tests:
+  trigger_tests:
     needs: sync_libs
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger instrumentation tests
+      - name: Trigger tests
         uses: actions/github-script@v7
         with:
           script: |
