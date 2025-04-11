@@ -29,9 +29,13 @@ jobs:
       - name: Build Android app
         run: ./gradlew assembleDebug assembleAndroidTest
 
-      - name: Run instrumentation tests
-        uses: android-actions/run-android-emulator@v3
+      - name: Create and start emulator
+        uses: android-actions/setup-android@v3
         with:
+          emulator: 'system-images;android-30;google_apis;x86_64' # Definisce l'immagine di sistema
           avd-name: test
-          emulator-options: -no-window
-          command: ./gradlew connectedCheck
+          api-level: 30
+          force: true
+
+      - name: Run connectedCheck
+        run: ./gradlew connectedCheck
