@@ -47,6 +47,11 @@ class NativeDeepFilterNetTest {
     }
 
     @Test
+    fun fail() {
+        assertEquals(true, false)
+    }
+
+    @Test
     fun testSetAttenuationLimit_setsValueSuccessfully() {
         val latch = CountDownLatch(1)
         deepFilterNet.onModelLoaded {
