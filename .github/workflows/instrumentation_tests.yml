@@ -2,9 +2,6 @@ name: Run Instrumentation Tests
 
 on:
     workflow_dispatch:
-    push:
-      branches:
-        - develop
 
 jobs:
   instrumentation-tests:
@@ -29,7 +26,7 @@ jobs:
           distribution: 'temurin'
           java-version: 17
 
-      - name: Setup Gradle
+      - name: Setup Gradle cache
         uses: gradle/actions/setup-gradle@v4
 
       - name: Enable KVM
@@ -38,9 +35,32 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
 
+      - name: AVD cache
+        uses: actions/cache@v4
+        id: avd-cache
+        with:
+            path: |
+                ~/.android/avd/*
+                ~/.android/adb*
+            key: avd-${{ matrix.api-level }}
+    
+      - name: Create AVD and generate snapshot for caching
+        if: steps.avd-cache.outputs.cache-hit != 'true'
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+            api-level: ${{ matrix.api-level }}
+            arch: x86_64
+            force-avd-creation: false
+            emulator-options: -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-metrics
+            disable-animations: true
+            script: echo "Generated AVD snapshot for caching."
+    
       - name: Run tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
             api-level: ${{ matrix.api-level }}
             arch: x86_64
+            force-avd-creation: false
+            emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim -camera-back none -no-metrics
+            disable-animations: true
             script: ./gradlew connectedCheck
