@@ -1,0 +1,37 @@
+name: Run Instrumentation Tests
+
+on:
+    workflow_dispatch:
+    push:
+      branches:
+        - develop
+
+jobs:
+  instrumentation-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'jetbrains' 
+          java-version: '11' 
+
+      - name: Set up Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build Android app
+        run: ./gradlew assembleDebug assembleAndroidTest
+
+      - name: Run instrumentation tests
+        uses: android-actions/run-android-emulator@v3
+        with:
+          avd-name: test
+          emulator-options: -no-window
+          command: ./gradlew connectedCheck
