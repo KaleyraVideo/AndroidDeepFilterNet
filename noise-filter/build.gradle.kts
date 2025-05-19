@@ -6,7 +6,7 @@ import java.util.Locale
 
 val libraryGroupId = "io.github.kaleyravideo"
 val libraryArtifactId = "android-deepfilternet"
-val libraryVersion = "0.0.0"
+val libraryVersion = "0.0.1"
 
 val bundledModelFlavour = "bundledModel"
 val lazyModelFlavour = "lazyModel"
