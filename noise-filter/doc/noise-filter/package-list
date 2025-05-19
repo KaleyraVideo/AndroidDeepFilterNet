@@ -1,5 +1,8 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
+$dokka.location:com.kaleyra.noise_filter.model_loader////PointingToDeclaration/noise-filter/com.kaleyra.noise_filter.model_loader/index.html
+$dokka.location:com.kaleyra.noise_filter.model_loader/DeepFilterModelLoader///PointingToDeclaration/noise-filter/com.kaleyra.noise_filter.model_loader/-deep-filter-model-loader/index.html
+$dokka.location:com.kaleyra.noise_filter.model_loader/DeepFilterModelLoader/load/#android.content.Context/PointingToDeclaration/noise-filter/com.kaleyra.noise_filter.model_loader/-deep-filter-model-loader/load.html
 $dokka.location:com.kaleyra.noise_filter////PointingToDeclaration/noise-filter/com.kaleyra.noise_filter/index.html
 $dokka.location:com.kaleyra.noise_filter/DeepFilterNet///PointingToDeclaration/noise-filter/com.kaleyra.noise_filter/-deep-filter-net/index.html
 $dokka.location:com.kaleyra.noise_filter/DeepFilterNet/frameLength/#/PointingToDeclaration/noise-filter/com.kaleyra.noise_filter/-deep-filter-net/frame-length.html
@@ -8,17 +11,37 @@ $dokka.location:com.kaleyra.noise_filter/DeepFilterNet/processFrame/#java.nio.By
 $dokka.location:com.kaleyra.noise_filter/DeepFilterNet/release/#/PointingToDeclaration/noise-filter/com.kaleyra.noise_filter/-deep-filter-net/release.html
 $dokka.location:com.kaleyra.noise_filter/DeepFilterNet/setAttenuationLimit/#kotlin.Float/PointingToDeclaration/noise-filter/com.kaleyra.noise_filter/-deep-filter-net/set-attenuation-limit.html
 $dokka.location:com.kaleyra.noise_filter/DeepFilterNet/setPostFilterBeta/#kotlin.Float/PointingToDeclaration/noise-filter/com.kaleyra.noise_filter/-deep-filter-net/set-post-filter-beta.html
+$dokka.location:com.kaleyra.noise_filter/DefaultDeepFilterModelLoader.Companion///PointingToDeclaration/noise-filter/com.kaleyra.noise_filter/[android-jvm]-default-deep-filter-model-loader/-companion/index.html
+$dokka.location:com.kaleyra.noise_filter/DefaultDeepFilterModelLoader///PointingToDeclaration/noise-filter/com.kaleyra.noise_filter/[android-jvm]-default-deep-filter-model-loader/index.html
+$dokka.location:com.kaleyra.noise_filter/DefaultDeepFilterModelLoader/DefaultDeepFilterModelLoader/#com.kaleyra.video_utils.dispatcher.DispatcherProvider/PointingToDeclaration/noise-filter/com.kaleyra.noise_filter/[android-jvm]-default-deep-filter-model-loader/-default-deep-filter-model-loader.html
+$dokka.location:com.kaleyra.noise_filter/DefaultDeepFilterModelLoader/load/#android.content.Context/PointingToDeclaration/noise-filter/com.kaleyra.noise_filter/[android-jvm]-default-deep-filter-model-loader/load.html
 $dokka.location:com.rikorose.deepfilternet////PointingToDeclaration/noise-filter/com.rikorose.deepfilternet/index.html
 $dokka.location:com.rikorose.deepfilternet/NativeDeepFilterNet.Companion///PointingToDeclaration/noise-filter/com.rikorose.deepfilternet/-native-deep-filter-net/-companion/index.html
 $dokka.location:com.rikorose.deepfilternet/NativeDeepFilterNet.Companion/DEFAULT_ATTENUATION_LIMIT/#/PointingToDeclaration/noise-filter/com.rikorose.deepfilternet/-native-deep-filter-net/-companion/-d-e-f-a-u-l-t_-a-t-t-e-n-u-a-t-i-o-n_-l-i-m-i-t.html
 $dokka.location:com.rikorose.deepfilternet/NativeDeepFilterNet///PointingToDeclaration/noise-filter/com.rikorose.deepfilternet/-native-deep-filter-net/index.html
-$dokka.location:com.rikorose.deepfilternet/NativeDeepFilterNet/NativeDeepFilterNet/#android.content.Context#kotlin.Float#com.kaleyra.video_utils.dispatcher.DispatcherProvider/PointingToDeclaration/noise-filter/com.rikorose.deepfilternet/-native-deep-filter-net/-native-deep-filter-net.html
+$dokka.location:com.rikorose.deepfilternet/NativeDeepFilterNet/NativeDeepFilterNet/#android.content.Context#kotlin.Float#com.kaleyra.video_utils.dispatcher.DispatcherProvider#com.kaleyra.noise_filter.model_loader.DeepFilterModelLoader/PointingToDeclaration/noise-filter/com.rikorose.deepfilternet/-native-deep-filter-net/-native-deep-filter-net.html
 $dokka.location:com.rikorose.deepfilternet/NativeDeepFilterNet/frameLength/#/PointingToDeclaration/noise-filter/com.rikorose.deepfilternet/-native-deep-filter-net/frame-length.html
 $dokka.location:com.rikorose.deepfilternet/NativeDeepFilterNet/onModelLoaded/#kotlin.Function1[com.kaleyra.noise_filter.DeepFilterNet,kotlin.Unit]/PointingToDeclaration/noise-filter/com.rikorose.deepfilternet/-native-deep-filter-net/on-model-loaded.html
 $dokka.location:com.rikorose.deepfilternet/NativeDeepFilterNet/processFrame/#java.nio.ByteBuffer/PointingToDeclaration/noise-filter/com.rikorose.deepfilternet/-native-deep-filter-net/process-frame.html
 $dokka.location:com.rikorose.deepfilternet/NativeDeepFilterNet/release/#/PointingToDeclaration/noise-filter/com.rikorose.deepfilternet/-native-deep-filter-net/release.html
 $dokka.location:com.rikorose.deepfilternet/NativeDeepFilterNet/setAttenuationLimit/#kotlin.Float/PointingToDeclaration/noise-filter/com.rikorose.deepfilternet/-native-deep-filter-net/set-attenuation-limit.html
 $dokka.location:com.rikorose.deepfilternet/NativeDeepFilterNet/setPostFilterBeta/#kotlin.Float/PointingToDeclaration/noise-filter/com.rikorose.deepfilternet/-native-deep-filter-net/set-post-filter-beta.html
+$dokka.location:fetcher////PointingToDeclaration/noise-filter/fetcher/index.html
+$dokka.location:fetcher/ModelFetcher///PointingToDeclaration/noise-filter/fetcher/-model-fetcher/index.html
+$dokka.location:fetcher/ModelFetcher/fetchModel/#java.io.File/PointingToDeclaration/noise-filter/fetcher/-model-fetcher/fetch-model.html
+$dokka.location:fetcher/S3ModelFetcher.Companion///PointingToDeclaration/noise-filter/fetcher/-s3-model-fetcher/-companion/index.html
+$dokka.location:fetcher/S3ModelFetcher///PointingToDeclaration/noise-filter/fetcher/-s3-model-fetcher/index.html
+$dokka.location:fetcher/S3ModelFetcher/S3ModelFetcher/#io.ktor.client.HttpClient#com.kaleyra.video_utils.dispatcher.DispatcherProvider#utils.Sha256FileHashCalculator/PointingToDeclaration/noise-filter/fetcher/-s3-model-fetcher/-s3-model-fetcher.html
+$dokka.location:fetcher/S3ModelFetcher/fetchModel/#java.io.File/PointingToDeclaration/noise-filter/fetcher/-s3-model-fetcher/fetch-model.html
+$dokka.location:utils////PointingToDeclaration/noise-filter/utils/index.html
+$dokka.location:utils/FileHashCalculator///PointingToDeclaration/noise-filter/utils/-file-hash-calculator/index.html
+$dokka.location:utils/FileHashCalculator/calculateHash/#java.io.File/PointingToDeclaration/noise-filter/utils/-file-hash-calculator/calculate-hash.html
+$dokka.location:utils/Sha256FileHashCalculator///PointingToDeclaration/noise-filter/utils/-sha256-file-hash-calculator/index.html
+$dokka.location:utils/StandardSha256FileHashCalculator///PointingToDeclaration/noise-filter/utils/-standard-sha256-file-hash-calculator/index.html
+$dokka.location:utils/StandardSha256FileHashCalculator/calculateHash/#java.io.File/PointingToDeclaration/noise-filter/utils/-standard-sha256-file-hash-calculator/calculate-hash.html
 com.kaleyra.noise_filter
+com.kaleyra.noise_filter.model_loader
 com.rikorose.deepfilternet
+fetcher
+utils
 

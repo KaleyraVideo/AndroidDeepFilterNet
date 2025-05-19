@@ -1,14 +1,12 @@
 package com.kaleyra.noise_filter
 
 import android.content.Context
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotEquals
 import org.junit.Before
 import org.junit.Test
-import org.junit.runner.RunWith
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.concurrent.CountDownLatch
@@ -16,7 +14,6 @@ import java.util.concurrent.TimeUnit
 import kotlin.math.sin
 import kotlin.random.Random
 
-@RunWith(AndroidJUnit4::class)
 class NativeDeepFilterNetTest {
 
     private lateinit var context: Context

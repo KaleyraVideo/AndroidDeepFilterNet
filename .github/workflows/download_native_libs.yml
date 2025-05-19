@@ -61,10 +61,10 @@ jobs:
           github-token: ${{ github.token }}
 
       - name: Create and clear res/raw directory
-        run: rm -rf noise-filter/src/main/res/raw && mkdir -p noise-filter/src/main/res/raw
+        run: rm -rf noise-filter/src/bundledModel/res/raw && mkdir -p noise-filter/src/bundledModel/res/raw
 
       - name: Rename and move DeepFilterNet mobile model
-        run: mv downloaded-artifacts/deep-filter-mobile-model noise-filter/src/main/res/raw/deep_filter_mobile_model
+        run: mv downloaded-artifacts/deep-filter-mobile-model noise-filter/src/bundledModel/res/raw/deep_filter_mobile_model
 
       - name: Create and clear jniLibs directory
         run: rm -rf noise-filter/src/main/jniLibs && mkdir -p noise-filter/src/main/jniLibs
@@ -82,7 +82,7 @@ jobs:
           git add noise-filter/src/main/jniLibs/armeabi-v7a/libdf.so
           git add noise-filter/src/main/jniLibs/x86/libdf.so
           git add noise-filter/src/main/jniLibs/x86_64/libdf.so
-          git add noise-filter/src/main/res/raw/deep_filter_mobile_model
+          git add noise-filter/src/bundledModel/res/raw/deep_filter_mobile_model
           if [[ -n $(git diff --staged) ]]; then
             echo "changed=true" >> $GITHUB_OUTPUT
           else
@@ -95,7 +95,7 @@ jobs:
           git config --local user.name "GitHub Actions Bot"
 
       - name: Stage jniLibs directory and model
-        run: git add noise-filter/src/main/jniLibs noise-filter/src/main/res/raw
+        run: git add noise-filter/src/main/jniLibs noise-filter/src/bundledModel/res/raw
 
       - name: Commit native library updates and model
         if: ${{ steps.check_changes.outputs.changed == 'true' }}
@@ -108,19 +108,3 @@ jobs:
         with:
           github_token: ${{ github.token }}
           branch: ${{ github.ref_name }}
-
-  trigger_tests:
-    needs: sync_libs
-    runs-on: ubuntu-latest
-    if: ${{ needs.sync_libs.outputs.changed == 'true' }}
-    steps:
-      - name: Trigger tests
-        uses: actions/github-script@v7
-        with:
-          script: |
-            await github.rest.actions.createWorkflowDispatch({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              workflow_id: 'tests.yml',
-              ref: context.ref,
-            });

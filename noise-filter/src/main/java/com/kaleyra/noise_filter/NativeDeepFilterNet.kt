@@ -3,7 +3,8 @@ package com.rikorose.deepfilternet
 import android.content.Context
 import android.util.Log
 import com.kaleyra.noise_filter.DeepFilterNet
-import com.kaleyra.noise_filter.R
+import com.kaleyra.noise_filter.DefaultDeepFilterModelLoader
+import com.kaleyra.noise_filter.model_loader.DeepFilterModelLoader
 import com.kaleyra.video_utils.dispatcher.DispatcherProvider
 import com.kaleyra.video_utils.dispatcher.StandardDispatchers
 import kotlinx.coroutines.CoroutineScope
@@ -21,7 +22,8 @@ import java.util.concurrent.atomic.AtomicReference
 class NativeDeepFilterNet(
     context: Context,
     attenuationLimit: Float = DEFAULT_ATTENUATION_LIMIT,
-    private val dispatchers: DispatcherProvider = StandardDispatchers
+    private val dispatchers: DispatcherProvider = StandardDispatchers,
+    private val modelLoader: DeepFilterModelLoader = DefaultDeepFilterModelLoader()
 ) : DeepFilterNet {
 
     /** Pointer to the native DeepFilterNet state. */
@@ -33,7 +35,9 @@ class NativeDeepFilterNet(
     init {
         CoroutineScope(dispatchers.main).launch {
             runCatching {
-                val modelBytes = loadModelBytes(context)
+                val modelBytes = modelLoader.load(context) ?: run {
+                    throw Exception("Error fetching model file")
+                }
                 val nativePointer = withContext(dispatchers.io) { newNative(modelBytes, attenuationLimit) }
                 nativePointer
             }.onSuccess {
@@ -45,16 +49,6 @@ class NativeDeepFilterNet(
                 Log.e(TAG, "Failed to initialize DeepFilter native state: ${ex.message}")
             }
         }
-    }
-
-    /**
-     * Loads the DeepFilterNet model bytes from the raw resources.
-     *
-     * @param context The Android Context to access resources.
-     * @return The model bytes as a ByteArray.
-     */
-    private suspend fun loadModelBytes(context: Context): ByteArray = withContext(dispatchers.io) {
-        context.resources.openRawResource(R.raw.deep_filter_mobile_model).use { it.readBytes() }
     }
 
     /**

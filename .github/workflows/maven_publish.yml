@@ -25,6 +25,9 @@ jobs:
           java-version-file: .github/.java-version
           distribution: 'temurin'
 
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
       - name: Get the current version
         id: version
         uses: flatherskevin/semver-action@v1
@@ -37,6 +40,21 @@ jobs:
           echo "New version: ${{ steps.version.outputs.nextVersion }}"
           sed -i "s/\"${{ steps.version.outputs.currentVersion }}\"/\"${{ steps.version.outputs.nextVersion }}\"/" noise-filter/build.gradle.kts
 
+      - name: Build project
+        run: ./gradlew build
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Publish on Maven Central
+        run: ./gradlew publishAllFlavoursToMavenCentral
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}
+
       - name: Configure Git user
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -44,6 +62,7 @@ jobs:
 
       - name: Commit changes
         run: |
+          git add --all
           git commit -am "Update version to ${{ steps.version.outputs.nextVersion }}"
           git push origin HEAD
 
@@ -51,15 +70,3 @@ jobs:
         run: |
           git tag -a "v${{ steps.version.outputs.nextVersion }}" -m "Version ${{ steps.version.outputs.nextVersion }}"
           git push origin --tags
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name: Publish on Maven Central
-        run: ./gradlew publishToMavenCentral --no-configuration-cache
-        env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyId: ${{ secrets.SIGNING_KEY_ID }}
-          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
-          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.GPG_KEY_CONTENTS }}

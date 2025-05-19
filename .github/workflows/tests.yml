@@ -2,8 +2,42 @@ name: Tests
 
 on:
     workflow_dispatch:
+    push:
+      branches: main
 
 jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        flavor: [ bundledModel, lazyModel ]
+
+    steps:
+      - name: Delete unnecessary tools
+        uses: jlumbroso/free-disk-space@v1.3.1
+        with:
+          android: false
+          tool-cache: true
+          docker-images: false
+          large-packages: false
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version-file: .github/.java-version
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run unit tests for ${{ matrix.flavor }} flavor
+        run: ./gradlew test${{ matrix.flavor }}DebugUnitTest
+
   instrumentation-tests:
     runs-on: ubuntu-latest
     timeout-minutes: 20

@@ -1,1 +1,1 @@
-sourceset_dependencies='{":noise-filter:dokkaHtml/debug":[],":noise-filter:dokkaHtml/main":[],":noise-filter:dokkaHtml/release":[]}'
+sourceset_dependencies='{":noise-filter:dokkaHtml/bundledModel":[],":noise-filter:dokkaHtml/bundledModelDebug":[],":noise-filter:dokkaHtml/bundledModelRelease":[],":noise-filter:dokkaHtml/debug":[],":noise-filter:dokkaHtml/lazyModel":[],":noise-filter:dokkaHtml/lazyModelDebug":[],":noise-filter:dokkaHtml/lazyModelRelease":[],":noise-filter:dokkaHtml/main":[],":noise-filter:dokkaHtml/release":[]}'
